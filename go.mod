@@ -12,4 +12,5 @@ require (
 	golang.org/x/sys v0.0.0-20211102192858-4dd72447c267 // indirect
 	gorm.io/driver/mysql v1.1.3
 	gorm.io/gorm v1.22.2
+	github.com/bxcodec/faker/v3 v3.8.0
 )

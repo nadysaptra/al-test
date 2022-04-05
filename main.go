@@ -23,6 +23,7 @@ func main() {
 	config.InitDB()
 	db := config.DB
 	database.InitMigration(db)
+	database.InitSeeder((db))
 
 	routers.Init(app)
 	app.Listen(":" + os.Getenv("APP_PORT"))
