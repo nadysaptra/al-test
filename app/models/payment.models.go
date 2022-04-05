@@ -11,7 +11,7 @@ import (
 
 type Payment struct {
 	gorm.Model
-	Status      string `json:"status"` // payed | cancelled | pending
+	Status      string `json:"status"` // pending | payed | cancelled
 	TicketRefer int
 	Ticket      Ticket `gorm:"foreignKey:TicketRefer"`
 }

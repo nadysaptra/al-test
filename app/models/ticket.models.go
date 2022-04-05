@@ -15,7 +15,7 @@ type Ticket struct {
 	Event      Event `gorm:"foreignKey:EventRefer"`
 	UserRefer  int
 	User       User   `gorm:"foreignKey:UserRefer"`
-	Status     string `json:"status"` // attended | forfeit
+	Status     string `json:"status"` // ordered | attended | forfeit
 }
 
 func FethAllTickets() (Response, error) {
@@ -40,16 +40,36 @@ func FethAllTickets() (Response, error) {
 	return res, nil
 }
 
-func CreateATicket(ticket *Ticket) (Response, error) {
+func CreateTicket(ticket *Ticket) (Response, error) {
 	var res Response
 	db := config.GetDBInstance()
 
 	if result := db.Create(&ticket); result.Error != nil {
-		fmt.Print("error CreateATicket")
+		fmt.Print("error CreateTicket")
 		fmt.Print(result.Error)
 
 		res.Status = http.StatusInternalServerError
 		res.Message = "error save new record"
+		return res, result.Error
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "success"
+	res.Data = ticket
+
+	return res, nil
+}
+
+func UpdateTicket(ticket *Ticket) (Response, error) {
+	var res Response
+	db := config.GetDBInstance()
+
+	if result := db.Save(&ticket); result.Error != nil {
+		fmt.Print("error UpdateTicket")
+		fmt.Print(result.Error)
+
+		res.Status = http.StatusInternalServerError
+		res.Message = "error update record"
 		return res, result.Error
 	}
 
