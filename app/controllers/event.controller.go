@@ -9,11 +9,27 @@ import (
 	"azure-labs-test/app/models"
 )
 
+// Event godoc
+// @Summary Show event list.
+// @Description get event list.
+// @Tags Event
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /events [get]
 func FetchAllEvents(c *fiber.Ctx) error {
 	result, _ := models.FetchAllEvents()
 	return c.Status(result.Status).JSON(result)
 }
 
+// Event godoc
+// @Summary Show detail event.
+// @Description get detail event.
+// @Tags Event
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /events/{id} [get]
 func FetchEvent(c *fiber.Ctx) error {
 	var event models.Event
 	convertToUint32, err := strconv.ParseUint(c.Params("id"), 10, 32)
@@ -26,6 +42,14 @@ func FetchEvent(c *fiber.Ctx) error {
 	return c.Status(result.Status).JSON(result)
 }
 
+// Event godoc
+// @Summary Show event ticket list.
+// @Description get event ticket list.
+// @Tags Event
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /events/{id}/tickets [get]
 func FetchEventTickets(c *fiber.Ctx) error {
 	var event models.Event
 	convertToUint32, err := strconv.Atoi(c.Params("id"))
@@ -38,6 +62,17 @@ func FetchEventTickets(c *fiber.Ctx) error {
 	return c.Status(result.Status).JSON(result)
 }
 
+// Event godoc
+// @Summary Create new event.
+// @Description Create new event.
+// @Tags Event
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param date body string true "Date"
+// @Param name body string true "Name"
+// @Param ticket_prize body string true "Ticket Prize"
+// @Router /events [post]
 func CreateEvent(c *fiber.Ctx) error {
 	var event models.Event
 
@@ -61,6 +96,17 @@ func CreateEvent(c *fiber.Ctx) error {
 	return c.Status(result.Status).JSON(result)
 }
 
+// Event godoc
+// @Summary Update event.
+// @Description Update event.
+// @Tags Event
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param date body string true "Date"
+// @Param name body string true "Name"
+// @Param ticket_prize body string true "Ticket Prize"
+// @Router /events/{id} [patch]
 func UpdateEvent(c *fiber.Ctx) error {
 	var event models.Event
 	if c.Params("id") == "" {
@@ -90,6 +136,14 @@ func UpdateEvent(c *fiber.Ctx) error {
 	return c.Status(result.Status).JSON(result)
 }
 
+// Event godoc
+// @Summary Delete event.
+// @Description Delete event.
+// @Tags Event
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /events/{id} [delete]
 func DeleteEvent(c *fiber.Ctx) error {
 	var event models.Event
 	if c.Params("id") == "" {

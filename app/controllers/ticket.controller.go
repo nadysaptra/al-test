@@ -9,11 +9,30 @@ import (
 	"azure-labs-test/app/models"
 )
 
+// Ticket godoc
+// @Summary Show ticket list.
+// @Description get ticket list.
+// @Tags Ticket
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Router /tickets [get]
 func FetchAllTicket(c *fiber.Ctx) error {
 	result, _ := models.FethAllTickets()
 	return c.Status(result.Status).JSON(result)
 }
 
+// Ticket godoc
+// @Summary Create new ticket.
+// @Description Create new ticket.
+// @Tags Ticket
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param status body string true "Status"
+// @Param event_refer body string true "Event ID"
+// @Param user_refer body string true "User ID"
+// @Router /tickets [post]
 func CreateTicket(c *fiber.Ctx) error {
 	var ticket models.Ticket
 	ticket.Status = "ordered"
@@ -34,6 +53,17 @@ func CreateTicket(c *fiber.Ctx) error {
 	return c.Status(result.Status).JSON(result)
 }
 
+// Ticket godoc
+// @Summary Create new ticket.
+// @Description Create new ticket.
+// @Tags Ticket
+// @Accept */*
+// @Produce json
+// @Success 200 {object} map[string]interface{}
+// @Param status body string true "Status"
+// @Param event_refer body string true "Event ID"
+// @Param user_refer body string true "User ID"
+// @Router /tickets/{id} [patch]
 func UpdateTicket(c *fiber.Ctx) error {
 	var ticket models.Ticket
 	if c.Params("id") == "" {

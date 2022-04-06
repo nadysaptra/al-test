@@ -1,6 +1,7 @@
 package routers
 
 import (
+	swagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )
@@ -8,21 +9,27 @@ import (
 func Init(app *fiber.App) {
 	app.Use(logger.New())
 
-	// ShowAccount godoc
-	// @Summary      Show an account
-	// @Description  get string by ID
-	// @Tags         accounts
-	// @Accept       json
-	// @Produce      json
-	// @Param        id   path      int  true  "Account ID"
-	// @Success      200  {object}  model.Account
-	// @Failure      400  {object}  httputil.HTTPError
-	// @Failure      404  {object}  httputil.HTTPError
-	// @Failure      500  {object}  httputil.HTTPError
-	// @Router       /accounts/{id} [get]
+	// Main godoc
+	// @Summary Show main route
+	// @Description get main route.
+	// @Tags root
+	// @Accept */*
+	// @Produce json
+	// @Success 200 "ok"
+	// @Router / [get]
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.Status(200).JSON("ok")
 	})
+
+	app.Get("/swagger.json", func(c *fiber.Ctx) error {
+		return c.SendFile("docs/swagger.json")
+	})
+
+	app.Get("/api-docs/*", swagger.New(swagger.Config{ // custom
+		URL:          "http://localhost:3000/swagger.json",
+		DeepLinking:  false,
+		DocExpansion: "none",
+	}))
 
 	User(app)
 	Event(app)
