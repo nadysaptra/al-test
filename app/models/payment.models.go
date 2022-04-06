@@ -12,7 +12,7 @@ import (
 type Payment struct {
 	gorm.Model
 	Status      string `json:"status"` // pending | payed | cancelled
-	TicketRefer int
+	TicketRefer int    `json:"ticket_refer"`
 	Ticket      Ticket `gorm:"foreignKey:TicketRefer"`
 }
 
@@ -38,6 +38,27 @@ func FethAllPayments() (Response, error) {
 	return res, nil
 }
 
+func FetchPayment(payment *Payment) (Response, error) {
+	var res Response
+
+	db := config.GetDBInstance()
+
+	if result := db.First(&payment); result.Error != nil {
+		fmt.Print("error FetchPayment")
+		fmt.Print(result.Error)
+
+		res.Status = http.StatusInternalServerError
+		res.Message = "error fetchin records"
+		return res, result.Error
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "success"
+	res.Data = payment
+
+	return res, nil
+}
+
 func CreatePayment(payment *Payment) (Response, error) {
 	var res Response
 	db := config.GetDBInstance()
@@ -59,10 +80,26 @@ func CreatePayment(payment *Payment) (Response, error) {
 }
 
 func UpdatePayment(payment *Payment) (Response, error) {
+	var ticket Ticket
 	var res Response
 	db := config.GetDBInstance()
 
-	if result := db.Save(&payment); result.Error != nil {
+	// make sure payment is still pending
+	var sP Payment
+	if sPayment := db.Where("id = ?", payment.ID).Where("status = ?", "pending").First(&sP); sPayment.Error != nil {
+		res.Status = http.StatusInternalServerError
+		res.Message = "payment not found"
+		return res, sPayment.Error
+	}
+
+	// make sure ticket is not forfeit | attended
+	if sTicket := db.Where("id = ?", sP.TicketRefer).Where("status = ?", "ordered").First(&ticket); sTicket.Error != nil {
+		res.Status = http.StatusInternalServerError
+		res.Message = "ticket not found"
+		return res, sTicket.Error
+	}
+
+	if result := db.Where("id = ?", payment.ID).Updates(Payment{Status: payment.Status}); result.Error != nil {
 		fmt.Print("error UpdatePayment")
 		fmt.Print(result.Error)
 

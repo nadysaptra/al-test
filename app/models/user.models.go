@@ -15,14 +15,14 @@ type User struct {
 	Email string `json:"email"`
 }
 
-func FethAllUsers() (Response, error) {
+func FetchAllUsers() (Response, error) {
 	var users []User
 	var res Response
 
 	db := config.GetDBInstance()
 
 	if result := db.Find(&users); result.Error != nil {
-		fmt.Print("error FethAllUsers")
+		fmt.Print("error FetchAllUsers")
 		fmt.Print(result.Error)
 
 		res.Status = http.StatusInternalServerError
@@ -33,6 +33,27 @@ func FethAllUsers() (Response, error) {
 	res.Status = http.StatusOK
 	res.Message = "success"
 	res.Data = users
+
+	return res, nil
+}
+
+func FetchUser(user *User) (Response, error) {
+	var res Response
+
+	db := config.GetDBInstance()
+
+	if result := db.First(&user); result.Error != nil {
+		fmt.Print("error FetchUser")
+		fmt.Print(result.Error)
+
+		res.Status = http.StatusInternalServerError
+		res.Message = "error fetchin records"
+		return res, result.Error
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "success"
+	res.Data = user
 
 	return res, nil
 }
@@ -53,6 +74,45 @@ func CreateAUser(user *User) (Response, error) {
 	res.Status = http.StatusOK
 	res.Message = "success"
 	res.Data = user
+
+	return res, nil
+}
+
+func UpdateUser(user *User) (Response, error) {
+	var res Response
+	db := config.GetDBInstance()
+
+	if result := db.Where("id = ?", user.ID).Updates(User{Name: user.Name, Email: user.Email}); result.Error != nil {
+		fmt.Print("error UpdateUser")
+		fmt.Print(result.Error)
+
+		res.Status = http.StatusInternalServerError
+		res.Message = "error update user record"
+		return res, result.Error
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "success"
+	res.Data = user
+
+	return res, nil
+}
+
+func DeleteUser(user *User) (Response, error) {
+	var res Response
+	db := config.GetDBInstance()
+
+	if result := db.Delete(&user); result.Error != nil {
+		fmt.Print("error DeleteUser")
+		fmt.Print(result.Error)
+
+		res.Status = http.StatusInternalServerError
+		res.Message = "error update user record"
+		return res, result.Error
+	}
+
+	res.Status = http.StatusOK
+	res.Message = "success"
 
 	return res, nil
 }
