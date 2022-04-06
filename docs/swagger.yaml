@@ -1,0 +1,419 @@
+basePath: /
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a testing server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: AzureLab Test
+  version: "2.0"
+paths:
+  /events:
+    get:
+      consumes:
+      - '*/*'
+      description: get event list.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show event list.
+      tags:
+      - Event
+    post:
+      consumes:
+      - '*/*'
+      description: Create new event.
+      parameters:
+      - description: Date
+        in: body
+        name: date
+        required: true
+        schema:
+          type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Ticket Prize
+        in: body
+        name: ticket_prize
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new event.
+      tags:
+      - Event
+  /events/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      description: Delete event.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete event.
+      tags:
+      - Event
+    get:
+      consumes:
+      - '*/*'
+      description: get detail event.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show detail event.
+      tags:
+      - Event
+    patch:
+      consumes:
+      - '*/*'
+      description: Update event.
+      parameters:
+      - description: Date
+        in: body
+        name: date
+        required: true
+        schema:
+          type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      - description: Ticket Prize
+        in: body
+        name: ticket_prize
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update event.
+      tags:
+      - Event
+  /events/{id}/tickets:
+    get:
+      consumes:
+      - '*/*'
+      description: get event ticket list.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show event ticket list.
+      tags:
+      - Event
+  /payments:
+    get:
+      consumes:
+      - '*/*'
+      description: get payment list.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show payment list.
+      tags:
+      - Payment
+  /payments/{id}:
+    get:
+      consumes:
+      - '*/*'
+      description: get payment detail.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show payment detail.
+      tags:
+      - Payment
+    patch:
+      consumes:
+      - '*/*'
+      description: Update event.
+      parameters:
+      - description: Status
+        in: body
+        name: status
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update event.
+      tags:
+      - Event
+  /tickets:
+    get:
+      consumes:
+      - '*/*'
+      description: get ticket list.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show ticket list.
+      tags:
+      - Ticket
+    post:
+      consumes:
+      - '*/*'
+      description: Create new ticket.
+      parameters:
+      - description: Status
+        in: body
+        name: status
+        required: true
+        schema:
+          type: string
+      - description: Event ID
+        in: body
+        name: event_refer
+        required: true
+        schema:
+          type: string
+      - description: User ID
+        in: body
+        name: user_refer
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new ticket.
+      tags:
+      - Ticket
+  /tickets/{id}:
+    patch:
+      consumes:
+      - '*/*'
+      description: Create new ticket.
+      parameters:
+      - description: Status
+        in: body
+        name: status
+        required: true
+        schema:
+          type: string
+      - description: Event ID
+        in: body
+        name: event_refer
+        required: true
+        schema:
+          type: string
+      - description: User ID
+        in: body
+        name: user_refer
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new ticket.
+      tags:
+      - Ticket
+  /users:
+    get:
+      consumes:
+      - '*/*'
+      description: get user list.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show user list.
+      tags:
+      - User
+    post:
+      consumes:
+      - '*/*'
+      description: Create new user.
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Create new user.
+      tags:
+      - User
+  /users/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      description: Delete user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Delete user.
+      tags:
+      - User
+    get:
+      consumes:
+      - '*/*'
+      description: get detail user.
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show detail user.
+      tags:
+      - User
+    patch:
+      consumes:
+      - '*/*'
+      description: Update user.
+      parameters:
+      - description: Email
+        in: body
+        name: email
+        required: true
+        schema:
+          type: string
+      - description: Name
+        in: body
+        name: name
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Update user.
+      tags:
+      - User
+  /users/{id}/tickets:
+    get:
+      consumes:
+      - '*/*'
+      description: get user tickets.
+      parameters:
+      - description: User Id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show user tickets.
+      tags:
+      - User
+schemes:
+- http
+swagger: "2.0"
